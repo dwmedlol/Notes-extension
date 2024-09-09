@@ -1,24 +1,24 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react'; // or other frameworks/plugins you might use
+import react from '@vitejs/plugin-react';
+import { resolve } from 'path';
 
 export default defineConfig({
   plugins: [react()],
   build: {
+    outDir: 'dist',
     rollupOptions: {
       input: {
-        background: 'src/background.js',
-        content: 'src/content.js',
-        popup: 'src/popup.html',
-        options: 'src/options.html',
+        // Define entry points for your extension
+        popup: resolve(__dirname, 'src/popup.html'),
+        options: resolve(__dirname, 'src/options.html'),
+        background: resolve(__dirname, 'src/background.js'),
+        content: resolve(__dirname, 'src/content.js')
       },
       output: {
-        entryFileNames: 'assets/[name].js',
-        chunkFileNames: 'assets/[name].js',
-        assetFileNames: 'assets/[name].[ext]',
-      },
-    },
-    outDir: 'dist',
-  },
-  // Ensure compatibility with Chrome extension environment
-  base: './',
+        entryFileNames: '[name].js',
+        chunkFileNames: 'chunks/[name].js',
+        assetFileNames: 'assetSs/[name].[ext]'
+      }
+    }
+  }
 });
